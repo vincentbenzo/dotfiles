@@ -1,0 +1,29 @@
+# ~/.config/ghostty/config
+
+# 1. The "No Mouse" Look
+# Remove the title bar completely. You rely on Aerospace borders now.
+window-decoration = false
+
+# 2. Performance (GPU)
+# Ghostty uses Metal by default, but let's force the best performance.
+# This ensures scrolling 10,000 lines of logs in k9s is buttery smooth.
+macos-titlebar-style = hidden
+
+# 3. Fonts (Critical for Neovim/k9s icons)
+# Ensure you have a Nerd Font installed (e.g., JetBrainsMono Nerd Font)
+font-family = "JetBrainsMono Nerd Font"
+font-size = 13
+# Adjust line height if glyphs get cut off
+adjust-cell-height = 10%
+
+# 4. Silence
+# Disable the annoying macOS "bonk" sound when you hit an invalid key
+bell-features = no-audio
+
+# 5. Tmux Integration
+# This allows Shift+Enter or Ctrl+Enter to pass through correctly to Neovim
+macos-option-as-alt = true
+
+# 6. Theme
+# Adding Catpuccin Theme
+theme = catppuccin-mocha.conf

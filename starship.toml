@@ -1,0 +1,40 @@
+# Get a clean, two-line prompt
+format = """
+$directory\
+$git_branch\
+${custom.aws_prod}\
+${custom.aws_default}\
+$kubernetes\
+$line_break\
+$character"""
+
+[directory]
+style = "bold cyan"
+
+[aws]
+# We disable the built-in AWS display so our custom colored ones can take over
+disabled = true
+
+[custom.aws_prod]
+# This only shows up if the profile name contains 'prod'
+command = "echo $AWS_PROFILE"
+when = 'echo $AWS_PROFILE | grep -iq "prod"'
+style = "bold red"
+format = "on [☁️  $output](bold red) "
+
+[custom.aws_default]
+# This shows up for everything ELSE (non-prod)
+command = "echo $AWS_PROFILE"
+when = 'echo $AWS_PROFILE | grep -ivq "prod" && [ ! -z "$AWS_PROFILE" ]'
+style = "bold yellow"
+format = "on [☁️  $output]($style) "
+
+[kubernetes]
+symbol = "☸️ "
+format = 'at [$symbol$context( \($namespace\))]($style) '
+style = "bold blue"
+disabled = false
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"

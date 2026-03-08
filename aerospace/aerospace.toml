@@ -1,0 +1,105 @@
+# Reference: https://github.com/nikitabobko/aerospace/blob/main/docs/guide.md
+
+# Start Aerospace at login
+start-at-login = true
+
+# Normalization: Look and feel nicely
+accordion-padding = 0
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center'] # Mouse lazily follows focused monitor (default in i3)
+
+# GAP configuration (The "Gaps" look)
+[gaps]
+inner.horizontal = 0
+inner.vertical =   0
+outer.left =       0
+outer.bottom =     0
+outer.top =        0
+outer.right =      0
+
+# MAIN MODIFIER: ALT (Option)
+# Using 'alt' allows you to keep 'cmd' for standard macOS app shortcuts (copy/paste)
+[mode.main.binding]
+
+# --- APP LAUNCHING (i3 Style) ---
+# Alt + Enter = Terminal (Ghostty)
+alt-enter = 'exec-and-forget open -a Ghostty'
+
+# --- AUDIO ---
+# Circle through audio output
+alt-shift-a = 'exec-and-forget ~/.local/bin/cycle-audio'
+
+# --- WINDOW FOCUS (Vim keys) ---
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# --- WINDOW MOVEMENT (Shift + Vim keys) ---
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# --- LAYOUT MODIFICATION ---
+# Toggle Fullscreen
+alt-f = 'fullscreen'
+
+# Tiles Width Modification
+alt-minus = 'resize smart -50'
+alt-equal = 'resize smart +50'
+
+# --- WORKSPACES (1-9) ---
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+
+alt-b = 'workspace b' # Bitwarden k for keys
+alt-m = 'workspace m' # Bitwarden k for keys
+
+# --- MOVE WINDOW TO WORKSPACE ---
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+
+alt-shift-b = 'move-node-to-workspace b'
+alt-shift-m = 'move-node-to-workspace m'
+
+# --- WORKSPACE TO MONITOR ATTRIBUTION
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = ['secondary', 'main']
+7 = ['secondary', 'main']
+8 = ['secondary', 'main']
+9 = ['secondary', 'main']
+m = 'main'
+b = 'main'
+
+# --- UTILITY ---
+# Reload Config (essential when tweaking)
+alt-shift-c = 'reload-config'
+
+[[on-window-detected]]
+if.app-id = 'com.bitwarden.desktop'
+run = 'move-node-to-workspace b'
+
+[[on-window-detected]]
+if.app-id = 'com.deezer.deezer-desktop'
+run = 'move-node-to-workspace m'

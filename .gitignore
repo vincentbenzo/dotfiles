@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# App-generated (not hand-written config)
+deezer-desktop/
+raycast/
+
+# GitHub CLI auth (secrets)
+gh/hosts.yml
+
+# Neovim plugin lockfile (auto-generated)
+nvim/lazy-lock.json

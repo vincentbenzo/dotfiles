@@ -1,3 +1,6 @@
+# Prevent slow prompt on network-dependent modules
+command_timeout = 500
+
 # Get a clean, two-line prompt
 format = """
 $directory\
@@ -5,6 +8,9 @@ $git_branch\
 ${custom.aws_prod}\
 ${custom.aws_default}\
 $kubernetes\
+$terraform\
+$python\
+$docker_context\
 $line_break\
 $character"""
 
@@ -34,6 +40,19 @@ symbol = "☸️ "
 format = 'at [$symbol$context( \($namespace\))]($style) '
 style = "bold blue"
 disabled = false
+
+[terraform]
+format = "via [$symbol$workspace]($style) "
+style = "bold purple"
+
+[python]
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = "bold yellow"
+
+[docker_context]
+format = "via [$symbol$context]($style) "
+style = "bold blue"
+only_with_files = true
 
 [character]
 success_symbol = "[➜](bold green)"

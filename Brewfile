@@ -45,13 +45,22 @@ brew "docker-completion"
 
 # Languages & Package Managers
 brew "go"
-brew "python@3.14"
+brew "python@3.13"
 brew "uv"                # Fast Python package manager
 
 # Keyboard & System
 brew "kanata"            # Keyboard remapping
 
+# Git Tools
+brew "lazygit"           # Terminal UI for git
+brew "git-delta"         # Better git diffs
+
+# Dev Environment
+brew "direnv"            # Per-project env vars
+brew "mise"              # Runtime version manager
+
 # Utilities
+brew "lazydocker"        # Terminal UI for Docker
 brew "gnu-sed"           # GNU sed (macOS ships BSD sed)
 brew "btop"              # Terminal system monitor
 brew "tldr"              # Simplified man pages

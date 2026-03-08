@@ -21,7 +21,7 @@ vim.opt.rtp:prepend(lazypath)
 -- ========================================================================== --
 require("lazy").setup({
     -- THEME
-    { 
+    {
         "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
@@ -35,13 +35,22 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         branch = "master", -- REQUIRED: Fixes the breaking change
-        config = function () 
+        config = function ()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = { "markdown", "markdown_inline", "lua", "vim", "vimdoc" },
-                highlight = { 
+                ensure_installed = {
+                    "markdown", "markdown_inline", "lua", "vim", "vimdoc",
+                    "go", "gomod", "gosum",
+                    "python",
+                    "hcl", "terraform",
+                    "yaml", "json", "toml",
+                    "bash",
+                    "dockerfile",
+                    "html", "css", "javascript", "typescript",
+                },
+                highlight = {
                     enable = true,
-                    additional_vim_regex_highlighting = false, 
+                    additional_vim_regex_highlighting = false,
                 },
             })
         end
@@ -72,12 +81,16 @@ vim.opt.linebreak = true
 -- Level 2 is usually the sweet spot for note-taking
 vim.opt.conceallevel = 2
 
--- Add line numbers (optional, but usually helpful)
-vim.opt.number = true
-
 -- HYBRID LINE NUMBERS
 vim.opt.number = true         -- Shows "42" on the line you are on
 vim.opt.relativenumber = true -- Shows "1, 2, 3..." for lines above/below
+
+-- System clipboard integration
+vim.opt.clipboard = "unnamedplus"
+
+-- Smart search (case-insensitive unless uppercase is used)
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- ========================================================================== --
 -- 4. KEYMAPS

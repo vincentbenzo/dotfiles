@@ -39,6 +39,13 @@ mkdir -p "$HOME/Screenshots"
 defaults write com.apple.screencapture location -string "$HOME/Screenshots"     # Save to ~/Screenshots
 defaults write com.apple.screencapture disable-shadow -bool true                # Disable window shadow
 
+# ─── Appearance ──────────────────────────────────────────
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"                # Dark mode
+osascript -e 'tell application "System Events" to set picture of every desktop to POSIX file "/System/Library/Desktop Pictures/Solid Colors/Black.png"'  # Black wallpaper
+
+# ─── Screen Saver ────────────────────────────────────────
+defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Computer Name" path -string "/System/Library/Frameworks/ScreenSaver.framework/PlugIns/BlankScreen.saver" type -int 0  # Blank (black) screen saver
+
 # ─── Misc ────────────────────────────────────────────────
 defaults write com.apple.LaunchServices LSQuarantine -bool false                # Disable "open this app?" dialog
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true     # Expand save dialog by default

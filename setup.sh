@@ -25,4 +25,7 @@ ln -sf "$(brew --prefix)/share/zsh-syntax-highlighting" "$ZSH_CUSTOM/plugins/zsh
 echo "==> Symlinking .zshrc"
 ln -sf ~/.config/zsh/.zshrc ~/.zshrc
 
+echo "==> Applying macOS defaults"
+bash "$(dirname "$0")/macos/defaults.sh"
+
 echo "==> Done! Restart your shell or run: source ~/.zshrc"

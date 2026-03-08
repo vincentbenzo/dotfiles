@@ -55,6 +55,18 @@ defaults write NSGlobalDomain com.apple.springing.enabled -bool false           
 defaults write com.apple.finder DisableAllAnimations -bool true                 # Disable Finder animations
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001                   # Instant window resize
 
+# ─── Scrollbars ─────────────────────────────────────────
+defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"          # Only show scrollbars when scrolling
+
+# ─── Trash ──────────────────────────────────────────────
+defaults write com.apple.finder FXRemoveOldTrashItems -bool true                   # Auto-empty trash after 30 days
+
+# ─── Spotlight ──────────────────────────────────────────
+# Disable Spotlight indexing for common dev directories
+sudo mdutil -i off /usr/local 2>/dev/null || true
+sudo mdutil -i off "$HOME/go" 2>/dev/null || true
+sudo mdutil -i off "$HOME/.local" 2>/dev/null || true
+
 # ─── Misc ────────────────────────────────────────────────
 defaults write com.apple.LaunchServices LSQuarantine -bool false                # Disable "open this app?" dialog
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true     # Expand save dialog by default

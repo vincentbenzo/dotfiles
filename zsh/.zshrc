@@ -1,9 +1,13 @@
+# --- ENVIRONMENT ---
+export EDITOR="nvim"
+export VISUAL="nvim"
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # --- OH MY ZSH SETUP ---
 export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
   git
-  kubectl
   vi-mode
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -76,17 +80,25 @@ bindkey -M viins 'jj' vi-cmd-mode     # Quick 'Esc'
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 GRANTED_PATH="/opt/homebrew/bin/assume"
 
-if command -v kubectl &> /dev/null; then
-    source <(kubectl completion zsh)
-    alias k='kubectl'
+# Lazy-load kubectl completions (expensive on every shell start)
+kubectl() {
+    unfunction kubectl
+    source <(command kubectl completion zsh)
     compdef _kubectl k
-fi
+    command kubectl "$@"
+}
 
 alias kctx="kubectx | fzf --height 40% --reverse | xargs kubectx"
 alias kns="kubens | fzf --height 40% --reverse | xargs kubens"
 
-AWS_COMPLETER_PATH=$(which aws_completer)
-[ -n "$AWS_COMPLETER_PATH" ] && complete -C "$AWS_COMPLETER_PATH" aws
+# Lazy-load AWS completions
+aws() {
+    unfunction aws
+    local completer
+    completer=$(command which aws_completer)
+    [ -n "$completer" ] && complete -C "$completer" aws
+    command aws "$@"
+}
 
 alias kgp="k get pods"
 alias kgs="k get svc"
@@ -94,28 +106,28 @@ alias kgi="k get ingress"
 
 # --- THE FUZZY SWITCHER ENGINE ---
 
-unalias assume ass dass ksw 2>/dev/null
+unalias assume awsp dass ksw 2>/dev/null
 
 if [ -f "$GRANTED_PATH" ]; then
     alias assume=". $GRANTED_PATH"
-    alias ass='unset AWS_PROFILE; assume $(aws configure list-profiles | fzf --height 40% --reverse --header "Select AWS Profile")'
+    alias awsp='unset AWS_PROFILE; assume $(aws configure list-profiles | fzf --height 40% --reverse --header "Select AWS Profile")'
 
     ksw() {
       local cluster
-      echo "🔍 Fetching EKS clusters for current account..."
+      echo "Fetching EKS clusters for current account..."
       cluster=$(aws eks list-clusters --query 'clusters' --output text | tr '\t' '\n' | fzf --height 40% --reverse --header "Select EKS Cluster")
 
       if [ -n "$cluster" ]; then
-        echo "☸️ Connecting to: $cluster..."
+        echo "Connecting to: $cluster..."
         aws eks update-kubeconfig --name "$cluster" --region ${AWS_REGION:-us-east-1}
-        echo "✅ Connected to $cluster."
+        echo "Connected to $cluster."
       fi
     }
 
-    alias dass='unset AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_SECURITY_TOKEN; kubectl config unset current-context; echo "☁️ AWS Disconnected & ☸️ K8s Context Cleared"'
+    alias dass='unset AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_SECURITY_TOKEN; kubectl config unset current-context; echo "AWS Disconnected & K8s Context Cleared"'
 else
-    echo "⚠️ Warning: Granted 'assume' binary not found at $GRANTED_PATH"
+    echo "Warning: Granted 'assume' binary not found at $GRANTED_PATH"
 fi
 
-export PATH="$PATH:$(python3 -m site --user-base)/bin"
+export PATH="$PATH:$(brew --prefix python)/libexec/bin"
 export PATH="$PATH:$HOME/.local/bin"

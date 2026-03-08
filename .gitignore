@@ -1,5 +1,10 @@
 # macOS
 .DS_Store
+**/.DS_Store
+
+# Editor swap/backup files
+*.swp
+*.bak
 
 # App-generated (not hand-written config)
 deezer-desktop/

@@ -24,6 +24,16 @@ bell-features = no-audio
 # This allows Shift+Enter or Ctrl+Enter to pass through correctly to Neovim
 macos-option-as-alt = true
 
-# 6. Theme
-# Adding Catpuccin Theme
+# 6. Scrollback & Selection
+scrollback-limit = 10000
+copy-on-select = clipboard
+
+# 7. Cursor
+cursor-style = bar
+cursor-style-blink = false
+
+# 8. Shell Integration
+shell-integration = zsh
+
+# 9. Theme
 theme = catppuccin-mocha.conf

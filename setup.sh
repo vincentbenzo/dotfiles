@@ -53,6 +53,41 @@ link ghostty                 "$CONFIG_DIR/ghostty"
 link aerospace/aerospace.toml "$CONFIG_DIR/aerospace/aerospace.toml"
 link kanata/kanata.kbd       "$CONFIG_DIR/kanata/kanata.kbd"
 
+echo "==> Setting up Kanata (keyboard remapping)"
+KARABINER_PKG_VERSION="6.2.0"
+KARABINER_MANAGER="/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager"
+KARABINER_DAEMON="/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon"
+
+if [ ! -f "$KARABINER_MANAGER" ]; then
+  echo "    Installing Karabiner Virtual HID Driver v$KARABINER_PKG_VERSION"
+  curl -fsSL -o /tmp/karabiner-driver.pkg \
+    "https://github.com/pqrs-org/Karabiner-DriverKit-VirtualHIDDevice/releases/download/v${KARABINER_PKG_VERSION}/Karabiner-DriverKit-VirtualHIDDevice-${KARABINER_PKG_VERSION}.pkg"
+  sudo installer -pkg /tmp/karabiner-driver.pkg -target /
+  rm /tmp/karabiner-driver.pkg
+fi
+
+echo "    Activating Karabiner driver extension"
+"$KARABINER_MANAGER" activate
+
+echo "    Installing LaunchDaemons for Karabiner and Kanata"
+sudo cp "$DOTFILES_DIR/kanata/com.karabiner.daemon.plist" /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/com.karabiner.daemon.plist
+sudo chmod 644 /Library/LaunchDaemons/com.karabiner.daemon.plist
+
+sudo cp "$DOTFILES_DIR/kanata/com.kanata.daemon.plist" /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/com.kanata.daemon.plist
+sudo chmod 644 /Library/LaunchDaemons/com.kanata.daemon.plist
+
+# Bootstrap daemons (ignore errors if already loaded)
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.karabiner.daemon.plist 2>/dev/null || true
+sudo launchctl bootstrap system /Library/LaunchDaemons/com.kanata.daemon.plist 2>/dev/null || true
+
+echo "    NOTE: You must approve the Karabiner driver extension in"
+echo "    System Settings > General > Login Items & Extensions > Driver Extensions"
+echo "    Then add kanata (/opt/homebrew/bin/kanata) to"
+echo "    System Settings > Privacy & Security > Input Monitoring"
+echo "    A reboot is required after approving the driver."
+
 echo "==> Applying macOS defaults"
 bash "$DOTFILES_DIR/macos/defaults.sh"
 

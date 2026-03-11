@@ -5,7 +5,8 @@
 )
 
 (defsrc
-  q a s d f g h j k l ;
+  q w a s d f g h j k l ;
+  z x
   caps
   u i o p
   n m , .
@@ -43,14 +44,16 @@
 )
 
 (deflayer base
-  q    @a   @s   @d   @f   g    h    @j   @k   @l   @;
+  q    w    @a   @s   @d   @f   g    h    @j   @k   @l   @;
+  z    x
   @nav
   u    i    o    p
   n    m    ,    .
 )
 
 (deflayer nav
-  A-S-a mute vold volu _    _    left down up   rght _
+  brdn  brup mute vold volu _    _    left down up   rght _
+  kbdn kbup
   _
   home pgdn pgup end
   bspc del  _    _

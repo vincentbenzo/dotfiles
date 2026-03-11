@@ -53,7 +53,7 @@
 
 (deflayer nav
   brdn  brup mute vold volu _    _    left down up   rght _
-  kbdn kbup
+  bldn blup
   _
   home pgdn pgup end
   bspc del  _    _

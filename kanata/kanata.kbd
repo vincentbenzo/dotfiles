@@ -21,6 +21,9 @@
   right-hand-keys (
     h j k l ;
   )
+  ;; Per-key lists: only non-modifier keys, so any modifier combo works
+  left-mod-keys (q g)
+  right-mod-keys (h)
 )
 
 (defchordsv2
@@ -28,14 +31,14 @@
 )
 
 (defalias
-  a (tap-hold-release-keys $tap-time $hold-time a lctl $left-hand-keys)
-  s (tap-hold-release-keys $tap-time $hold-time s lalt $left-hand-keys)
-  d (tap-hold-release-keys $tap-time $hold-time d lmet $left-hand-keys)
-  f (tap-hold-release-keys $tap-time $hold-time f lsft $left-hand-keys)
-  j (tap-hold-release-keys $tap-time $hold-time j rsft $right-hand-keys)
-  k (tap-hold-release-keys $tap-time $hold-time k rmet $right-hand-keys)
-  l (tap-hold-release-keys $tap-time $hold-time l ralt $right-hand-keys)
-  ; (tap-hold-release-keys $tap-time $hold-time ; rctl $right-hand-keys)
+  a (tap-hold-release-keys $tap-time $hold-time a lctl $left-mod-keys)
+  s (tap-hold-release-keys $tap-time $hold-time s lalt $left-mod-keys)
+  d (tap-hold-release-keys $tap-time $hold-time d lmet $left-mod-keys)
+  f (tap-hold-release-keys $tap-time $hold-time f lsft $left-mod-keys)
+  j (tap-hold-release-keys $tap-time $hold-time j rsft $right-mod-keys)
+  k (tap-hold-release-keys $tap-time $hold-time k rmet $right-mod-keys)
+  l (tap-hold-release-keys $tap-time $hold-time l ralt $right-mod-keys)
+  ; (tap-hold-release-keys $tap-time $hold-time ; rctl $right-mod-keys)
   nav (layer-toggle nav)
 )
 

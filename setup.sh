@@ -9,7 +9,8 @@ link() {
   local src="$DOTFILES_DIR/$1"
   local dest="$2"
   mkdir -p "$(dirname "$dest")"
-  ln -sf "$src" "$dest"
+  rm -rf "$dest"
+  ln -s "$src" "$dest"
   echo "    Linked $dest -> $src"
 }
 
@@ -47,11 +48,6 @@ echo "==> Symlinking config files"
 link zsh/.zshrc              "$HOME/.zshrc"
 link git/config              "$HOME/.gitconfig"
 link git/ignore              "$HOME/.gitignore_global"
-link starship.toml           "$CONFIG_DIR/starship.toml"
-link nvim                    "$CONFIG_DIR/nvim"
-link ghostty                 "$CONFIG_DIR/ghostty"
-link aerospace/aerospace.toml "$CONFIG_DIR/aerospace/aerospace.toml"
-link kanata/kanata.kbd       "$CONFIG_DIR/kanata/kanata.kbd"
 
 echo "==> Setting up Kanata (keyboard remapping)"
 KARABINER_PKG_VERSION="6.2.0"

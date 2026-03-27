@@ -2,8 +2,7 @@
 
 source "$HOME/.config/sketchybar/icons.sh"
 
-CURRENT_WIFI="$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I)"
-SSID="$(echo "$CURRENT_WIFI" | grep -o "SSID: .*" | sed 's/^SSID: //')"
+SSID="$(ipconfig getsummary en0 2>/dev/null | awk -F ' : ' '/SSID/{print $2}')"
 
 if [ -n "$SSID" ]; then
   sketchybar --set "$NAME" icon=$WIFI_ICN

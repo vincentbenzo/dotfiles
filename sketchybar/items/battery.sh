@@ -1,7 +1,8 @@
 sketchybar --add item battery right                          \
-           --set battery icon.y_offset=10                    \
-                         icon.padding_left=6                 \
-                         icon.padding_right=-16              \
+           --set battery icon.font="$FONT:Regular:14.0"      \
+                         icon.y_offset=13                    \
+                         icon.padding_left=10                \
+                         icon.padding_right=-22              \
                          label.font="$NERD_FONT:Mono:12.0"  \
                          label.padding_left=0                \
                          y_offset=-4                         \

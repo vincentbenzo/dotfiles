@@ -2,21 +2,13 @@
 
 source "$HOME/.config/sketchybar/icons.sh"
 
+WIFI_INFO="$(ipconfig getsummary en0 2>/dev/null)"
+SSID="$(echo "$WIFI_INFO" | awk -F ' : ' '/^ *SSID/{print $2}')"
+IS_CONNECTED="$(echo "$WIFI_INFO" | grep -c 'BSSID')"
+
 case "$SENDER" in
-  "mouse.entered")
-    SSID="$(ipconfig getsummary en0 2>/dev/null | awk -F ' : ' '/SSID/{print $2}')"
-    if [ -n "$SSID" ]; then
-      sketchybar --set "$NAME" label="$SSID" label.drawing=on
-    else
-      sketchybar --set "$NAME" label="Disconnected" label.drawing=on
-    fi
-    ;;
-  "mouse.exited")
-    sketchybar --set "$NAME" label.drawing=off
-    ;;
   *)
-    SSID="$(ipconfig getsummary en0 2>/dev/null | awk -F ' : ' '/SSID/{print $2}')"
-    if [ -n "$SSID" ]; then
+    if [ "$IS_CONNECTED" -gt 0 ]; then
       sketchybar --set "$NAME" icon=$WIFI_ICN
     else
       sketchybar --set "$NAME" icon=󰤭 label.drawing=off

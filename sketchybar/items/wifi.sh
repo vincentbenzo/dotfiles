@@ -2,4 +2,5 @@ sketchybar --add item wifi right                      \
            --set wifi icon=$WIFI_ICN                   \
                       label.drawing=off                \
                       script="$PLUGIN_DIR/wifi.sh"     \
-                      update_freq=10
+                      update_freq=10                   \
+           --subscribe wifi mouse.entered mouse.exited

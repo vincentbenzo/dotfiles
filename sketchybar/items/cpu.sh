@@ -1,17 +1,8 @@
-sketchybar --add item        cpu.top right                 \
-           --set cpu.top     label.font="$FONT:Medium:7"   \
-                             label=CPU                     \
-                             icon.drawing=off              \
-                             width=0                       \
-                             y_offset=6                    \
-                             background.padding_right=10   \
-                                                           \
-           --add item        cpu.percent right             \
+sketchybar --add item        cpu.percent right             \
            --set cpu.percent label.font="$FONT:Bold:12"    \
                              label=CPU                     \
-                             y_offset=-4                   \
-                             width=40                      \
                              icon.drawing=off              \
+                             width=40                      \
                              update_freq=2                 \
                              background.padding_right=10   \
                                                            \

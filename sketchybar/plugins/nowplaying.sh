@@ -18,12 +18,6 @@ if [ -z "$TITLE" ]; then
   exit 0
 fi
 
-if [ "$PLAYING" = "true" ]; then
-  ICON="$MUSIC_PLAY"
-else
-  ICON="$MUSIC_PAUSE"
-fi
-
 LABEL="$ARTIST – $TITLE"
 
-sketchybar --set "$NAME" drawing=on icon="$ICON" label="$LABEL"
+sketchybar --set "$NAME" drawing=on icon="$DEEZER_ICN" label="$LABEL"

@@ -2,7 +2,7 @@ sketchybar --add item        ram.label right                 \
            --set ram.label   label="RAM"                     \
                              label.font="$NERD_FONT:Mono:8.0" \
                              label.color=$GREY               \
-                             label.padding_left=10           \
+                             padding_left=10                 \
                              icon.drawing=off                \
                              width=0                         \
                              y_offset=6                      \

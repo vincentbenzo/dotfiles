@@ -1,16 +1,14 @@
-sketchybar --add item        cpu.percent right             \
-           --set cpu.percent icon="CPU"                      \
-                             icon.drawing=on                 \
-                             icon.font="$NERD_FONT:Mono:10.0" \
+sketchybar --add item        ram.percent right              \
+           --set ram.percent icon.drawing=off                \
                              label.font="$NERD_FONT:Mono:12.0" \
-                             label=CPU                       \
+                             label="RAM"                     \
                              y_offset=-4                     \
                              width=40                        \
                              update_freq=2                   \
-                             script="$PLUGIN_DIR/cpu.sh"     \
+                             script="$PLUGIN_DIR/ram.sh"     \
                                                              \
-           --add item        cpu.label right                 \
-           --set cpu.label   label="CPU"                     \
+           --add item        ram.label right                 \
+           --set ram.label   label="RAM"                     \
                              label.font="$NERD_FONT:Mono:8.0" \
                              label.color=$GREY               \
                              icon.drawing=off                \

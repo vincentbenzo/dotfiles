@@ -2,9 +2,10 @@ sketchybar --add item        ram.label right                 \
            --set ram.label   label="RAM"                     \
                              label.font="$NERD_FONT:Mono:8.0" \
                              label.color=$GREY               \
-                             padding_left=10                 \
+                             label.align=center              \
                              icon.drawing=off                \
-                             width=0                         \
+                             width=40                        \
+                             padding_left=-40                \
                              y_offset=6                      \
                                                              \
            --add item        ram.percent right               \

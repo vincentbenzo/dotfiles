@@ -28,6 +28,7 @@ brew tap common-fate/granted
 brew tap common-fate/tap
 brew tap infisical/get-cli
 brew tap nikitabobko/tap
+brew tap FelixKratz/formulae
 
 echo "==> Installing packages from Brewfile"
 brew bundle --file="$DOTFILES_DIR/Brewfile"
@@ -48,6 +49,7 @@ echo "==> Symlinking config files"
 link zsh/.zshrc              "$HOME/.zshrc"
 link git/config              "$HOME/.gitconfig"
 link git/ignore              "$HOME/.gitignore_global"
+link sketchybar              "$CONFIG_DIR/sketchybar"
 
 echo "==> Setting up Kanata (keyboard remapping)"
 KARABINER_PKG_VERSION="6.2.0"

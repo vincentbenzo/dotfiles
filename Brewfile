@@ -3,6 +3,7 @@ tap "common-fate/granted"
 tap "common-fate/tap"
 tap "infisical/get-cli"
 tap "nikitabobko/tap"
+tap "FelixKratz/formulae"
 
 # Terminal & Shell
 brew "zsh-autosuggestions"    # Fish-like suggestions for zsh
@@ -50,6 +51,7 @@ brew "uv"                # Fast Python package manager
 
 # Keyboard & System
 brew "kanata"            # Keyboard remapping
+brew "sketchybar"        # Custom macOS menu bar
 
 # Git Tools
 brew "lazygit"           # Terminal UI for git

@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-source "$HOME/.config/sketchybar/icons.sh"
-
 INFO=$(media-control get 2>/dev/null)
 
 if [ -z "$INFO" ] || [ "$INFO" = "null" ]; then
@@ -20,4 +18,4 @@ fi
 
 LABEL="$ARTIST – $TITLE"
 
-sketchybar --set "$NAME" drawing=on icon="$DEEZER_ICN" label="$LABEL"
+sketchybar --set "$NAME" drawing=on label="$LABEL"

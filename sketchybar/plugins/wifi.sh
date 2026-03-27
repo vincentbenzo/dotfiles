@@ -19,7 +19,7 @@ case "$SENDER" in
     if [ -n "$SSID" ]; then
       sketchybar --set "$NAME" icon=$WIFI_ICN
     else
-      sketchybar --set "$NAME" icon=􀙈 label.drawing=off
+      sketchybar --set "$NAME" icon=󰤭 label.drawing=off
     fi
     ;;
 esac

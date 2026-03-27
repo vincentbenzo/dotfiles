@@ -40,33 +40,33 @@ else
   LABEL="${PERCENTAGE}%"
 fi
 
-# 10-level Nerd Font battery icons (discharge)
+# 10-level Nerd Font battery icons (raw UTF-8 bytes for /bin/sh compatibility)
 if [ -z "$CHARGING" ]; then
   case ${PERCENTAGE} in
-    9[0-9]|100) ICON=$(printf '\U000F0079') ;;
-    8[0-9])     ICON=$(printf '\U000F0082') ;;
-    7[0-9])     ICON=$(printf '\U000F0080') ;;
-    6[0-9])     ICON=$(printf '\U000F007F') ;;
-    5[0-9])     ICON=$(printf '\U000F007E') ;;
-    4[0-9])     ICON=$(printf '\U000F007D') ;;
-    3[0-9])     ICON=$(printf '\U000F007C') ;;
-    2[0-9])     ICON=$(printf '\U000F007B') ;;
-    1[0-9])     ICON=$(printf '\U000F007A') ;;
-    *)          ICON=$(printf '\U000F008E') ;;
+    9[0-9]|100) ICON=$(printf '\xf3\xb0\x81\xb9') ;; # U+F0079 battery
+    8[0-9])     ICON=$(printf '\xf3\xb0\x82\x82') ;; # U+F0082 battery-90
+    7[0-9])     ICON=$(printf '\xf3\xb0\x82\x80') ;; # U+F0080 battery-70
+    6[0-9])     ICON=$(printf '\xf3\xb0\x81\xbf') ;; # U+F007F battery-60
+    5[0-9])     ICON=$(printf '\xf3\xb0\x81\xbe') ;; # U+F007E battery-50
+    4[0-9])     ICON=$(printf '\xf3\xb0\x81\xbd') ;; # U+F007D battery-40
+    3[0-9])     ICON=$(printf '\xf3\xb0\x81\xbc') ;; # U+F007C battery-30
+    2[0-9])     ICON=$(printf '\xf3\xb0\x81\xbb') ;; # U+F007B battery-20
+    1[0-9])     ICON=$(printf '\xf3\xb0\x81\xba') ;; # U+F007A battery-10
+    *)          ICON=$(printf '\xf3\xb0\x82\x8e') ;; # U+F008E battery-outline
   esac
 else
-  # 10-level Nerd Font battery icons (charging)
+  # Charging variants with bolt overlay
   case ${PERCENTAGE} in
-    9[0-9]|100) ICON=$(printf '\U000F0085') ;;
-    8[0-9])     ICON=$(printf '\U000F008A') ;;
-    7[0-9])     ICON=$(printf '\U000F089E') ;;
-    6[0-9])     ICON=$(printf '\U000F0089') ;;
-    5[0-9])     ICON=$(printf '\U000F089D') ;;
-    4[0-9])     ICON=$(printf '\U000F0088') ;;
-    3[0-9])     ICON=$(printf '\U000F0087') ;;
-    2[0-9])     ICON=$(printf '\U000F0086') ;;
-    1[0-9])     ICON=$(printf '\U000F089C') ;;
-    *)          ICON=$(printf '\U000F089F') ;;
+    9[0-9]|100) ICON=$(printf '\xf3\xb0\x82\x85') ;; # U+F0085 battery-charging-100
+    8[0-9])     ICON=$(printf '\xf3\xb0\x82\x8a') ;; # U+F008A battery-charging-80
+    7[0-9])     ICON=$(printf '\xf3\xb0\xa2\x9e') ;; # U+F089E battery-charging-70
+    6[0-9])     ICON=$(printf '\xf3\xb0\x82\x89') ;; # U+F0089 battery-charging-60
+    5[0-9])     ICON=$(printf '\xf3\xb0\xa2\x9d') ;; # U+F089D battery-charging-50
+    4[0-9])     ICON=$(printf '\xf3\xb0\x82\x88') ;; # U+F0088 battery-charging-40
+    3[0-9])     ICON=$(printf '\xf3\xb0\x82\x87') ;; # U+F0087 battery-charging-30
+    2[0-9])     ICON=$(printf '\xf3\xb0\x82\x86') ;; # U+F0086 battery-charging-20
+    1[0-9])     ICON=$(printf '\xf3\xb0\xa2\x9c') ;; # U+F089C battery-charging-10
+    *)          ICON=$(printf '\xf3\xb0\xa2\x9f') ;; # U+F089F battery-charging-outline
   esac
 fi
 

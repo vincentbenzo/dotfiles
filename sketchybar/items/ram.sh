@@ -10,6 +10,6 @@ sketchybar --add item        ram.percent right               \
                              y_offset=-4                    \
                              width=40                       \
                              update_freq=2                  \
-                             background.padding_left=6     \
+                             background.padding_left=5     \
                              background.padding_right=6    \
                              script="$PLUGIN_DIR/ram.sh"

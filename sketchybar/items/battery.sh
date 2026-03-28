@@ -8,7 +8,7 @@ sketchybar --add item battery right                          \
                          y_offset=-4                         \
                          width=40                            \
                          update_freq=120                     \
-                         background.padding_left=6          \
+                         background.padding_left=9          \
                          background.padding_right=6         \
                          popup.align=right                   \
                          script="$PLUGIN_DIR/battery.sh"     \

@@ -3,5 +3,5 @@ sketchybar --add item clock right                              \
                        label.font="$NERD_FONT:Regular:14.0"    \
                        width=155                                \
                        background.padding_left=6                 \
-                       background.padding_right=6                \
+                       background.padding_right=8                \
                        script="$PLUGIN_DIR/clock.sh"

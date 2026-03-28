@@ -1,5 +1,6 @@
 sketchybar --add item slack right                           \
            --set slack icon="󰒱"                             \
+                       icon.font="JetBrainsMono Nerd Font:Regular:18.0" \
                        update_freq=10                        \
                        script="$PLUGIN_DIR/slack.sh"         \
                        icon.padding_left=8                   \

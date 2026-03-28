@@ -2,14 +2,62 @@
 
 source "$HOME/.config/sketchybar/colors.sh"
 
-if ! command -v icalBuddy &>/dev/null; then
-  sketchybar --set "$NAME" drawing=off
-  exit 0
-fi
+# Use AppleScript to get next upcoming non-all-day event from Calendar.app
+EVENT_INFO=$(osascript <<'APPLESCRIPT'
+use framework "Foundation"
+use scripting additions
 
-# Get next non-all-day event (title + time + url/notes/location for meeting link)
-EVENT_INFO=$(icalBuddy -n -li 1 -nc -ea -nrd -b "" -df "" -tf "%H:%M" \
-  -iep "title,datetime,notes,url,location" eventsToday+1 2>/dev/null)
+set now to current date
+set tomorrow to now + (1 * days)
+
+tell application "Calendar"
+    set allEvents to {}
+    repeat with cal in calendars
+        try
+            set evts to (every event of cal whose start date >= now and start date < tomorrow and allday event is false)
+            set allEvents to allEvents & evts
+        end try
+    end repeat
+
+    if (count of allEvents) = 0 then return ""
+
+    -- Find the soonest event
+    set nextEvt to item 1 of allEvents
+    repeat with evt in allEvents
+        if start date of evt < start date of nextEvt then
+            set nextEvt to evt
+        end if
+    end repeat
+
+    set evtTitle to summary of nextEvt
+    set evtStart to start date of nextEvt
+    set evtHour to text -2 thru -1 of ("0" & (hours of evtStart as text))
+    set evtMin to text -2 thru -1 of ("0" & (minutes of evtStart as text))
+    set evtTime to evtHour & ":" & evtMin
+
+    -- Try to find meeting URL in url, notes, or location
+    set meetURL to ""
+    try
+        set u to url of nextEvt
+        if u is not missing value then set meetURL to u
+    end try
+    if meetURL is "" then
+        try
+            set n to description of nextEvt
+            if n is not missing value then set meetURL to n
+        end try
+    end if
+    if meetURL is "" then
+        try
+            set loc to location of nextEvt
+            if loc is not missing value then set meetURL to loc
+        end try
+    end if
+
+    return evtTitle & "||" & evtTime & "||" & meetURL
+end tell
+APPLESCRIPT
+)
 
 if [ -z "$EVENT_INFO" ]; then
   sketchybar --set "$NAME" drawing=off
@@ -17,14 +65,13 @@ if [ -z "$EVENT_INFO" ]; then
   exit 0
 fi
 
-# Parse title (first non-empty, non-indented line)
-TITLE=$(echo "$EVENT_INFO" | head -1 | sed 's/^[[:space:]]*//' | cut -c1-30)
-
-# Parse start time (first HH:MM occurrence)
-START_TIME=$(echo "$EVENT_INFO" | grep -oE '[0-9]{2}:[0-9]{2}' | head -1)
+# Parse fields (separated by ||)
+TITLE=$(echo "$EVENT_INFO" | cut -d'|' -f1 | cut -c1-30)
+START_TIME=$(echo "$EVENT_INFO" | cut -d'|' -f3)
+RAW_URL=$(echo "$EVENT_INFO" | cut -d'|' -f5-)
 
 # Extract meeting URL (Zoom, Google Meet, Teams, Webex)
-MEET_URL=$(echo "$EVENT_INFO" | grep -oE 'https?://[^ )]*zoom\.[^ )]*|https?://meet\.google\.com/[^ )]*|https?://teams\.microsoft\.com/[^ )]*|https?://[^ )]*webex[^ )]*' | head -1)
+MEET_URL=$(echo "$RAW_URL" | grep -oE 'https?://[^ )]*zoom\.[^ )]*|https?://meet\.google\.com/[^ )]*|https?://teams\.microsoft\.com/[^ )]*|https?://[^ )]*webex[^ )]*' | head -1)
 
 # Save meeting URL for click handler
 if [ -n "$MEET_URL" ]; then
@@ -38,9 +85,6 @@ COLOR=$WHITE
 ICON="󰃰"
 if [ -n "$START_TIME" ]; then
   NOW_EPOCH=$(date +%s)
-  EVT_HOUR=$(echo "$START_TIME" | cut -d: -f1 | sed 's/^0//')
-  EVT_MIN=$(echo "$START_TIME" | cut -d: -f2 | sed 's/^0//')
-  # Build today's event timestamp
   EVT_EPOCH=$(date -j -f "%H:%M" "$START_TIME" +%s 2>/dev/null)
 
   if [ -n "$EVT_EPOCH" ]; then

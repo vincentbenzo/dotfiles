@@ -8,7 +8,7 @@ sketchybar --add item battery right                          \
                          y_offset=-4                         \
                          width=40                            \
                          update_freq=120                     \
-                         popup.align=center                  \
+                         popup.align=right                   \
                          script="$PLUGIN_DIR/battery.sh"     \
            --subscribe battery system_woke power_source_change \
                               mouse.clicked                  \
@@ -16,5 +16,4 @@ sketchybar --add item battery right                          \
            --add item battery.details popup.battery          \
            --set battery.details icon.drawing=off            \
                          label.font="$NERD_FONT:Mono:12.0"  \
-                         label="Loading..."                  \
-                         width=220
+                         label="Loading..."

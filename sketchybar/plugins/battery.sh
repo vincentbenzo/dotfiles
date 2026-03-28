@@ -13,7 +13,9 @@ if [ "$SENDER" = "mouse.clicked" ]; then
   TIME_REMAINING=$(pmset -g batt | grep -Eo '\d+:\d+' | head -1)
   CHARGING=$(pmset -g batt | grep 'AC Power')
 
-  if [ -z "$TIME_REMAINING" ] || [ "$TIME_REMAINING" = "0:00" ]; then
+  if [ -n "$CHARGING" ] && { [ -z "$TIME_REMAINING" ] || [ "$TIME_REMAINING" = "0:00" ]; }; then
+    DETAIL="Plugged in"
+  elif [ -z "$TIME_REMAINING" ] || [ "$TIME_REMAINING" = "0:00" ]; then
     DETAIL="Calculating..."
   elif [ -n "$CHARGING" ]; then
     DETAIL="Charging — $TIME_REMAINING remaining"

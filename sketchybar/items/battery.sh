@@ -8,8 +8,8 @@ sketchybar --add item battery right                          \
                          y_offset=-4                         \
                          width=40                            \
                          update_freq=120                     \
-                         background.padding_left=9          \
-                         background.padding_right=6         \
+                         background.padding_left=12          \
+                         background.padding_right=12         \
                          popup.align=right                   \
                          script="$PLUGIN_DIR/battery.sh"     \
            --subscribe battery system_woke power_source_change \

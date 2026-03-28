@@ -18,4 +18,4 @@ fi
 
 LABEL="$ARTIST – $TITLE"
 
-sketchybar --set "$NAME" drawing=on label="$LABEL"
+sketchybar --set "$NAME" drawing=on label="$LABEL" label.color=0xffffffff

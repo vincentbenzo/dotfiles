@@ -16,5 +16,13 @@ case "$CPU_PERCENT" in
   [7-9][0-9]|100) COLOR=$RED ;;
 esac
 
-sketchybar --set cpu.percent label="$CPU_PERCENT%" \
-                             label.color=$COLOR
+# Shift single-digit values right to keep them centered
+if [ "$CPU_PERCENT" -lt 10 ] 2>/dev/null; then
+  PADDING=4
+else
+  PADDING=0
+fi
+
+sketchybar --set cpu.percent label="${CPU_PERCENT}%" \
+                             label.color=$COLOR \
+                             label.padding_left=$PADDING

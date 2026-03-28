@@ -8,5 +8,5 @@ sketchybar --add item slack right                           \
                        label.padding_left=0                  \
                        label.padding_right=8                 \
                        label.y_offset=5                      \
-                       label.font="JetBrainsMono Nerd Font:Mono:10.0" \
+                       label.font="JetBrainsMono Nerd Font:Mono:13.0" \
                        click_script="open -a Slack"

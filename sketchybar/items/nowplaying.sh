@@ -7,7 +7,7 @@ sketchybar --add item nowplaying left                                   \
                             background.image.drawing=on                  \
                             background.image.scale=0.8                   \
                             background.image.padding_left=4              \
-                            label.padding_left=24                       \
+                            label.padding_left=28                       \
                             label.padding_right=8                       \
                             label.max_chars=40                          \
                             background.color=0x00000000                  \

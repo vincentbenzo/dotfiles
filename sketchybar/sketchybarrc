@@ -33,6 +33,7 @@ source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/ram.sh"
 source "$ITEM_DIR/wifi.sh"
 source "$ITEM_DIR/slack.sh"
+source "$ITEM_DIR/calendar.sh"
 
 sketchybar --update
 

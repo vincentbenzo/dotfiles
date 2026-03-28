@@ -9,19 +9,19 @@ CPU_USER=$(echo "$CPU_INFO" | grep $(whoami) | sed "s/[^ 0-9\.]//g" | awk "{sum+
 
 CPU_PERCENT="$(echo "$CPU_SYS $CPU_USER" | awk '{printf "%.0f\n", ($1 + $2)*100}')"
 
-COLOR=$WHITE
-case "$CPU_PERCENT" in
-  [1-2][0-9]) COLOR=$YELLOW ;;
-  [3-6][0-9]) COLOR=$ORANGE ;;
-  [7-9][0-9]|100) COLOR=$RED ;;
-esac
-
 # Shift single-digit values right to keep them centered
 if [ "$CPU_PERCENT" -lt 10 ] 2>/dev/null; then
   PADDING=4
 else
   PADDING=0
 fi
+
+COLOR=$WHITE
+case "$CPU_PERCENT" in
+  [1-2][0-9]) COLOR=$YELLOW ;;
+  [3-6][0-9]) COLOR=$ORANGE ;;
+  [7-9][0-9]|100) COLOR=$RED ;;
+esac
 
 sketchybar --set cpu.percent label="${CPU_PERCENT}%" \
                              label.color=$COLOR \

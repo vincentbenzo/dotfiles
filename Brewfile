@@ -52,6 +52,7 @@ brew "uv"                # Fast Python package manager
 # Keyboard & System
 brew "kanata"            # Keyboard remapping
 brew "sketchybar"        # Custom macOS menu bar
+brew "ical-buddy"        # CLI for macOS calendar events
 brew "media-control"     # Now playing info (works on macOS 15.4+/Tahoe)
 
 # Git Tools

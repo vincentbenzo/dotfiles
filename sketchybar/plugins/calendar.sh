@@ -44,26 +44,36 @@ on run argv
 
     set now to current date
 
-    -- End of today (midnight tonight)
-    set endOfDay to now
-    set time of endOfDay to 0
-    set endOfDay to endOfDay + (1 * days)
+    -- Start and end of today
+    set startOfDay to now
+    set time of startOfDay to 0
+    set endOfDay to startOfDay + (1 * days)
 
     tell application "Calendar"
-        set allEvents to {}
+        -- Get all of today's non-allday events, then filter for future ones in code
+        set todayEvents to {}
         repeat with cal in calendars
             try
                 if calFilter is "" or (name of cal) is calFilter then
-                    set evts to (every event of cal whose start date >= now and start date < endOfDay and allday event is false)
-                    set allEvents to allEvents & evts
+                    set evts to (every event of cal whose start date >= startOfDay and start date < endOfDay and allday event is false)
+                    set todayEvents to todayEvents & evts
                 end if
             end try
         end repeat
 
-        if (count of allEvents) = 0 then return "NONE"
+        -- Filter to only future events (start date >= now)
+        set futureEvents to {}
+        repeat with evt in todayEvents
+            if start date of evt >= now then
+                set end of futureEvents to evt
+            end if
+        end repeat
 
-        set nextEvt to item 1 of allEvents
-        repeat with evt in allEvents
+        if (count of futureEvents) = 0 then return "NONE"
+
+        -- Find the soonest future event
+        set nextEvt to item 1 of futureEvents
+        repeat with evt in futureEvents
             if start date of evt < start date of nextEvt then
                 set nextEvt to evt
             end if
@@ -126,7 +136,8 @@ TITLE=$(echo "$FIRST_LINE" | cut -d'|' -f1 | cut -c1-30)
 START_TIME=$(echo "$FIRST_LINE" | cut -d'|' -f3)
 
 # Extract meeting URL from full cache (URL may be on later lines)
-MEET_URL=$(echo "$FULL_CACHE" | grep -oE 'https?://[^ )"]*zoom\.[^ )"]*|https?://meet\.google\.com/[^ )"]*|https?://teams\.microsoft\.com/[^ )"]*|https?://[^ )"]*webex[^ )"]*' | head -1)
+URL_PATTERN='https?://[^ ]*zoom\.[^ ]*|https?://meet\.google\.com/[^ ]*|https?://teams\.microsoft\.com/[^ ]*|https?://[^ ]*webex[^ ]*'
+MEET_URL=$(echo "$FULL_CACHE" | grep -oE "$URL_PATTERN" | head -1)
 
 if [ -n "$MEET_URL" ]; then
   echo "$MEET_URL" > /tmp/sketchybar_meeting_url
@@ -144,7 +155,13 @@ if [ -n "$START_TIME" ]; then
     DIFF_SEC=$((EVT_EPOCH - NOW_EPOCH))
     DIFF_MIN=$((DIFF_SEC / 60))
 
-    if [ "$DIFF_MIN" -le 0 ]; then
+    if [ "$DIFF_MIN" -le -5 ]; then
+      # Event started more than 5 min ago — stale cache, clear it
+      echo "" > "$CACHE"
+      rm -f /tmp/sketchybar_meeting_url
+      sketchybar --set "$NAME" drawing=off
+      exit 0
+    elif [ "$DIFF_MIN" -le 0 ]; then
       REMAINING="Now"
       COLOR=$RED
     elif [ "$DIFF_MIN" -le 5 ]; then

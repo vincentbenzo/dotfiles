@@ -131,3 +131,11 @@ fi
 
 export PATH="$PATH:$(brew --prefix python)/libexec/bin"
 export PATH="$PATH:$HOME/.local/bin"
+
+# --- LOCAL PLANS ---
+link-local-plan() {
+  local repo_name
+  repo_name=$(basename "$(git remote get-url origin)" .git)
+  mkdir -p ~/.local-plans/"$repo_name"
+  ln -sfn ~/.local-plans/"$repo_name" .local
+}

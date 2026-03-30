@@ -15,3 +15,6 @@ gh/hosts.yml
 
 # Neovim plugin lockfile (auto-generated)
 nvim/lazy-lock.json
+
+# Local sketchybar config (machine-specific)
+sketchybar/plugins/calendar.env

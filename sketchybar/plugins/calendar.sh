@@ -2,6 +2,13 @@
 
 source "$HOME/.config/sketchybar/colors.sh"
 
+# Load calendar name from local config (gitignored)
+CAL_ENV="$HOME/.config/sketchybar/plugins/calendar.env"
+CALENDAR_NAME=""
+if [ -f "$CAL_ENV" ]; then
+  source "$CAL_ENV"
+fi
+
 LOCK="/tmp/sketchybar_cal.lock"
 CACHE="/tmp/sketchybar_cal_event"
 
@@ -27,53 +34,64 @@ find "$LOCK" -mmin +2 -delete 2>/dev/null
 if [ ! -f "$LOCK" ]; then
   touch "$LOCK"
   (
-    RESULT=$(osascript <<'APPLESCRIPT'
+    RESULT=$(osascript - "$CALENDAR_NAME" <<'APPLESCRIPT'
 use framework "Foundation"
 use scripting additions
 
-set now to current date
-set tomorrow to now + (1 * days)
+on run argv
+    set calFilter to ""
+    if (count of argv) > 0 then set calFilter to item 1 of argv
 
-tell application "Calendar"
-    set allEvents to {}
-    repeat with cal in calendars
+    set now to current date
+
+    -- End of today (midnight tonight)
+    set endOfDay to now
+    set time of endOfDay to 0
+    set endOfDay to endOfDay + (1 * days)
+
+    tell application "Calendar"
+        set allEvents to {}
+        repeat with cal in calendars
+            try
+                if calFilter is "" or (name of cal) is calFilter then
+                    set evts to (every event of cal whose start date >= now and start date < endOfDay and allday event is false)
+                    set allEvents to allEvents & evts
+                end if
+            end try
+        end repeat
+
+        if (count of allEvents) = 0 then return "NONE"
+
+        set nextEvt to item 1 of allEvents
+        repeat with evt in allEvents
+            if start date of evt < start date of nextEvt then
+                set nextEvt to evt
+            end if
+        end repeat
+
+        set evtTitle to summary of nextEvt
+        set evtStart to start date of nextEvt
+        set evtHour to text -2 thru -1 of ("0" & (hours of evtStart as text))
+        set evtMin to text -2 thru -1 of ("0" & (minutes of evtStart as text))
+        set evtTime to evtHour & ":" & evtMin
+
+        set rawText to ""
         try
-            set evts to (every event of cal whose start date >= now and start date < tomorrow and allday event is false)
-            set allEvents to allEvents & evts
+            set u to url of nextEvt
+            if u is not missing value then set rawText to rawText & " " & u
         end try
-    end repeat
+        try
+            set n to description of nextEvt
+            if n is not missing value then set rawText to rawText & " " & n
+        end try
+        try
+            set loc to location of nextEvt
+            if loc is not missing value then set rawText to rawText & " " & loc
+        end try
 
-    if (count of allEvents) = 0 then return "NONE"
-
-    set nextEvt to item 1 of allEvents
-    repeat with evt in allEvents
-        if start date of evt < start date of nextEvt then
-            set nextEvt to evt
-        end if
-    end repeat
-
-    set evtTitle to summary of nextEvt
-    set evtStart to start date of nextEvt
-    set evtHour to text -2 thru -1 of ("0" & (hours of evtStart as text))
-    set evtMin to text -2 thru -1 of ("0" & (minutes of evtStart as text))
-    set evtTime to evtHour & ":" & evtMin
-
-    set rawText to ""
-    try
-        set u to url of nextEvt
-        if u is not missing value then set rawText to rawText & " " & u
-    end try
-    try
-        set n to description of nextEvt
-        if n is not missing value then set rawText to rawText & " " & n
-    end try
-    try
-        set loc to location of nextEvt
-        if loc is not missing value then set rawText to rawText & " " & loc
-    end try
-
-    return evtTitle & "||" & evtTime & "||" & rawText
-end tell
+        return evtTitle & "||" & evtTime & "||" & rawText
+    end tell
+end run
 APPLESCRIPT
     )
 

@@ -51,6 +51,16 @@ link git/config              "$HOME/.gitconfig"
 link git/ignore              "$HOME/.gitignore_global"
 link sketchybar              "$CONFIG_DIR/sketchybar"
 
+echo "==> Installing SbarLua (sketchybar Lua bindings)"
+if [ ! -f "$HOME/.local/share/sketchybar_lua/sketchybar.so" ]; then
+  git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua
+  (cd /tmp/SbarLua && make install)
+  rm -rf /tmp/SbarLua
+  echo "    SbarLua installed"
+else
+  echo "    SbarLua already installed, skipping"
+fi
+
 echo "==> Setting up Kanata (keyboard remapping)"
 KARABINER_PKG_VERSION="6.2.0"
 KARABINER_MANAGER="/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager"

@@ -14,4 +14,8 @@ return {
   battery_charging = "􀢋",
   music_play       = "􀑪",
   music_pause      = "􀑛",
+  volume_high      = "􀊩",
+  volume_mid       = "􀊧",
+  volume_low       = "􀊥",
+  volume_off       = "􀊣",
 }
